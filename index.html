@@ -1,0 +1,2479 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10110f">
+<title>ERMO Network</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #10110f;
+  --surface: #191a16;
+  --surface-2: #20211c;
+  --surface-3: #292a24;
+  --border: #34352e;
+  --text: #f2f0e9;
+  --muted: #999a90;
+  --accent: #b8a477;
+  --accent-text: #171711;
+  --nav-bg: rgba(16,17,15,.94);
+  --pattern-opacity: .11;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "DM Sans", Arial, sans-serif;
+  overflow-x: hidden;
+  transition: background .25s, color .25s;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--pattern-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='none' stroke='%23b8a477' stroke-width='.7'%3E%3Cpath d='M45 0L90 45 45 90 0 45Z'/%3E%3Cpath d='M45 18L72 45 45 72 18 45Z'/%3E%3Ccircle cx='45' cy='45' r='5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 90px 90px;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
+
+/* HEADER */
+
+.topbar {
+  height: 72px;
+  padding: 0 max(5%, calc((100% - 1180px)/2));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.brand-dot {
+  color: var(--accent);
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.network-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7dba83;
+  box-shadow: 0 0 10px #7dba8366;
+}
+
+.icon-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  transition: .2s;
+}
+
+.icon-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* MAIN */
+
+.main-content {
+  width: min(100% - 36px, 1050px);
+  margin: 0 auto;
+  padding: 34px 0 50px;
+}
+
+.page {
+  display: none;
+  animation: pageIn .25s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: 3px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.page-title {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(36px, 6vw, 58px);
+  line-height: .98;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+
+.page-description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 550px;
+  margin-top: 13px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 15px;
+  margin: 38px 0 18px;
+}
+
+.section-heading h2 {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 27px;
+  text-transform: uppercase;
+}
+
+.section-heading p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.text-button {
+  background: transparent;
+  border: 0;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* SEARCH */
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px 7px 15px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 25px;
+}
+
+.search-box > i {
+  color: var(--muted);
+}
+
+.search-box input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  border: 0;
+  outline: 0;
+  color: var(--text);
+  background: transparent;
+  font-size: 14px;
+}
+
+.search-box input::placeholder {
+  color: var(--muted);
+}
+
+.primary-button {
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 18px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 800;
+  font-size: 12px;
+  transition: .2s;
+}
+
+.primary-button:hover {
+  filter: brightness(1.08);
+}
+
+.primary-button:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+/* HERO */
+
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(110deg, var(--surface) 0%, var(--surface) 55%, transparent 100%),
+    var(--surface-2);
+}
+
+.hero-panel::after {
+  content: "ERMO";
+  position: absolute;
+  right: -8px;
+  bottom: -55px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(130px, 25vw, 260px);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--accent);
+  opacity: .07;
+  pointer-events: none;
+}
+
+.hero-content {
+  max-width: 570px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content h1 {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(42px, 7vw, 70px);
+  line-height: .92;
+  text-transform: uppercase;
+  margin-bottom: 13px;
+}
+
+.hero-content p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+  max-width: 420px;
+}
+
+.hero-label {
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: 3px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+/* FEED */
+
+.feed-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.post-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.post-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #080908;
+  position: relative;
+  overflow: hidden;
+}
+
+.post-media iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.post-media-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.post-body {
+  padding: 17px;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.platform-label {
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.post-date {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.post-title {
+  font-size: 17px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.post-description {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+  margin-top: 8px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.post-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  margin-top: 15px;
+  padding-top: 13px;
+}
+
+.post-community {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.mini-avatar {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 9px;
+  background: var(--surface-3);
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 900;
+  overflow: hidden;
+}
+
+.mini-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.community-label {
+  min-width: 0;
+}
+
+.community-label strong {
+  display: block;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.community-label span {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.post-open {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--accent);
+  padding: 9px 11px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* COMMUNITY CARDS */
+
+.community-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin-top: 22px;
+}
+
+.community-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 18px;
+  min-width: 0;
+  transition: .2s;
+}
+
+.community-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.community-logo {
+  width: 52px;
+  height: 52px;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: var(--accent);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 15px;
+}
+
+.community-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.community-card h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+  overflow-wrap: anywhere;
+}
+
+.community-card p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+  min-height: 36px;
+  overflow-wrap: anywhere;
+}
+
+.community-address {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 10px;
+  margin-top: 13px;
+  font-weight: 800;
+}
+
+.community-card-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 15px;
+  padding-top: 13px;
+}
+
+.community-visit {
+  width: 100%;
+  padding: 11px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* VIDEOS */
+
+.videos-intro {
+  margin-bottom: 22px;
+}
+
+.video-feed {
+  width: min(100%, 620px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.video-card {
+  height: min(76vh, 720px);
+  min-height: 470px;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #080908;
+  border: 1px solid var(--border);
+  scroll-snap-align: start;
+  isolation: isolate;
+}
+
+.video-card iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.video-overlay {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  padding: 65px 20px 20px;
+  background: linear-gradient(transparent, rgba(0,0,0,.9));
+  pointer-events: none;
+}
+
+.video-overlay > * {
+  pointer-events: auto;
+}
+
+.video-community {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 13px;
+}
+
+.video-community .mini-avatar {
+  background: #292a24;
+}
+
+.video-community strong {
+  font-size: 12px;
+}
+
+.video-community span {
+  display: block;
+  color: #c2c2b8;
+  font-size: 10px;
+}
+
+.video-card h3 {
+  font-size: 20px;
+  line-height: 1.3;
+  margin-bottom: 7px;
+  text-shadow: 0 2px 10px #000;
+}
+
+.video-card p {
+  color: #d1d1c9;
+  font-size: 12px;
+  line-height: 1.6;
+  max-width: 470px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.video-actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 14px;
+}
+
+.video-action {
+  background: rgba(255,255,255,.13);
+  color: white;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 8px;
+  padding: 10px 13px;
+  font-size: 10px;
+  font-weight: 800;
+  backdrop-filter: blur(10px);
+}
+
+/* EMPTY / MESSAGE */
+
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 45px 20px;
+  border: 1px dashed var(--border);
+  border-radius: 13px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-state i {
+  color: var(--accent);
+  margin-bottom: 13px;
+}
+
+.empty-state h3 {
+  color: var(--text);
+  font-size: 17px;
+  margin-bottom: 7px;
+}
+
+.empty-state p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.notice {
+  color: var(--accent);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 12px;
+  min-height: 18px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(72px + env(safe-area-inset-bottom));
+  padding: 7px 10px env(safe-area-inset-bottom);
+  background: var(--nav-bg);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-inner {
+  width: min(100%, 650px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.nav-item {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  height: 55px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 700;
+  transition: .2s;
+}
+
+.nav-item i {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-item.active {
+  color: var(--accent);
+  background: var(--surface);
+}
+
+/* THEME MODAL */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,.72);
+  display: none;
+  align-items: end;
+  justify-content: center;
+  padding: 15px;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.theme-modal {
+  width: min(100%, 480px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 10px;
+  animation: modalIn .2s ease;
+}
+
+@keyframes modalIn {
+  from { transform: translateY(25px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 27px;
+  text-transform: uppercase;
+}
+
+.close-modal {
+  width: 35px;
+  height: 35px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface-2);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+}
+
+.theme-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 12px;
+  text-align: left;
+}
+
+.theme-option.selected {
+  border-color: var(--accent);
+}
+
+.theme-swatch {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 10px;
+  border: 1px solid #ffffff25;
+}
+
+.theme-option strong {
+  display: block;
+  font-size: 12px;
+}
+
+.theme-option small {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  margin-top: 3px;
+}
+
+/* FOOTER */
+
+.app-footer {
+  width: min(100% - 36px, 1050px);
+  margin: 0 auto;
+  border-top: 1px solid var(--border);
+  padding: 23px 0 30px;
+  color: var(--muted);
+  font-size: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* DESKTOP */
+
+@media(min-width: 900px) {
+  .app-shell {
+    padding-bottom: 0;
+  }
+
+  .main-content {
+    padding-top: 45px;
+    padding-bottom: 65px;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    top: 72px;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    width: 86px;
+    height: auto;
+    padding: 20px 8px;
+    border-top: 0;
+    border-left: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-item {
+    height: 65px;
+  }
+
+  .main-content {
+    width: min(100% - 150px, 1050px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .app-footer {
+    width: min(100% - 150px, 1050px);
+  }
+
+  .modal-backdrop {
+    align-items: center;
+  }
+}
+
+@media(max-width: 700px) {
+  .topbar {
+    height: 62px;
+    padding: 0 18px;
+  }
+
+  .brand {
+    font-size: 26px;
+  }
+
+  .network-status {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .main-content {
+    width: calc(100% - 30px);
+    padding-top: 25px;
+  }
+
+  .hero-panel {
+    padding: 23px;
+    min-height: 205px;
+  }
+
+  .feed-list {
+    grid-template-columns: 1fr;
+  }
+
+  .community-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .community-card {
+    padding: 13px;
+  }
+
+  .community-card p {
+    min-height: 52px;
+  }
+
+  .video-card {
+    height: 72vh;
+    min-height: 430px;
+  }
+
+  .app-footer {
+    width: calc(100% - 30px);
+    flex-direction: column;
+  }
+}
+
+@media(max-width: 380px) {
+  .community-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-box {
+    padding-left: 10px;
+  }
+
+  .search-box .primary-button {
+    padding: 11px;
+  }
+}
+  /* CONTROLES DE ÁUDIO DOS VÍDEOS */
+
+.video-sound-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+  width: 43px;
+  height: 43px;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 50%;
+  background: rgba(0,0,0,.65);
+  color: white;
+  display: grid;
+  place-items: center;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: .2s;
+}
+
+.video-sound-button:hover {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.video-sound-button i {
+  width: 19px;
+  height: 19px;
+}
+
+.video-sound-notice {
+  position: absolute;
+  top: 68px;
+  right: 15px;
+  z-index: 10;
+  padding: 9px 12px;
+  background: rgba(0,0,0,.8);
+  border-radius: 8px;
+  color: white;
+  font-size: 10px;
+  display: none;
+}
+
+.video-sound-notice.visible {
+  display: block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-shell">
+
+<header class="topbar">
+  <a href="#" class="brand" aria-label="ERMO Network" onclick="showPage('home');return false;">
+    <span class="brand-mark"><i data-lucide="network"></i></span>
+    ERMO<span class="brand-dot">.</span>
+  </a>
+
+  <div class="topbar-right">
+    <div class="network-status">
+      <span class="status-dot"></span>
+      NETWORK · BETA
+    </div>
+
+    <button class="icon-button" id="openThemes" aria-label="Alterar tema">
+      <i data-lucide="palette"></i>
+    </button>
+  </div>
+</header>
+
+<main class="main-content">
+
+  <!-- INÍCIO -->
+
+  <section class="page active" id="page-home">
+
+    <div class="hero-panel">
+      <div class="hero-content">
+        <div class="hero-label">UMA REDE. VÁRIAS COMUNIDADES.</div>
+        <h1>Seu lugar<br>está aqui.</h1>
+        <p>
+          Descubra comunidades, acompanhe publicações
+          e encontre novos espaços dentro da ERMO.
+        </p>
+      </div>
+    </div>
+
+    <div class="section-heading">
+      <div>
+        <h2>Explore a rede</h2>
+        <p>Encontre uma comunidade pelo endereço.</p>
+      </div>
+    </div>
+
+    <form class="search-box" id="resolverForm">
+      <i data-lucide="search"></i>
+      <input
+        id="address"
+        type="text"
+        placeholder="Ex.: imperiumz.ermo"
+        autocomplete="off"
+        required
+      >
+      <button class="primary-button" id="resolveButton" type="submit">
+        Acessar
+      </button>
+    </form>
+
+    <div class="notice" id="resolveMessage"></div>
+
+    <div class="section-heading">
+      <div>
+        <h2>Comunidades em destaque</h2>
+        <p>Conheça quem faz parte da ERMO.</p>
+      </div>
+      <button class="text-button" onclick="showPage('communities')">
+        Ver todas
+      </button>
+    </div>
+
+    <div class="community-grid" id="homeCommunities">
+      <div class="empty-state">
+        <i data-lucide="loader-circle"></i>
+        <h3>Carregando comunidades</h3>
+      </div>
+    </div>
+
+    <div class="section-heading">
+      <div>
+        <h2>Últimas publicações</h2>
+        <p>O que está acontecendo na rede.</p>
+      </div>
+      <button class="text-button" onclick="showPage('videos')">
+        Ver vídeos
+      </button>
+    </div>
+
+    <div class="feed-list" id="homeFeed">
+      <div class="empty-state">
+        <i data-lucide="loader-circle"></i>
+        <h3>Carregando publicações</h3>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- COMUNIDADES -->
+
+  <section class="page" id="page-communities">
+
+    <div class="eyebrow">DIRECTORY · ERMO</div>
+    <h1 class="page-title">Comunidades</h1>
+    <p class="page-description">
+      Todos os espaços cadastrados na rede ERMO.
+      Encontre sua comunidade e acesse seu site.
+    </p>
+
+    <div class="search-box">
+      <i data-lucide="search"></i>
+      <input
+        id="communitySearch"
+        type="search"
+        placeholder="Pesquisar comunidade..."
+        autocomplete="off"
+      >
+    </div>
+
+    <div class="notice" id="communityMessage"></div>
+
+    <div class="community-grid" id="allCommunities">
+      <div class="empty-state">
+        <i data-lucide="loader-circle"></i>
+        <h3>Carregando comunidades</h3>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- VÍDEOS -->
+
+  <section class="page" id="page-videos">
+
+    <div class="videos-intro">
+      <div class="eyebrow">ERMO COMMUNITY</div>
+      <h1 class="page-title">Vídeos</h1>
+      <p class="page-description">
+        Publicações compartilhadas pelas comunidades.
+        Role para baixo para descobrir o próximo vídeo.
+      </p>
+    </div>
+
+    <div class="video-feed" id="videoFeed">
+      <div class="empty-state">
+        <i data-lucide="loader-circle"></i>
+        <h3>Carregando vídeos</h3>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  <span>ERMO NETWORK © 2026</span>
+  <span>Uma rede. Várias comunidades.</span>
+</footer>
+
+</div>
+
+<!-- NAVEGAÇÃO -->
+
+<nav class="bottom-nav" aria-label="Navegação principal">
+  <div class="nav-inner">
+
+    <button class="nav-item active" data-page="home">
+      <i data-lucide="house"></i>
+      <span>Início</span>
+    </button>
+
+    <button class="nav-item" data-page="communities">
+      <i data-lucide="users"></i>
+      <span>Comunidades</span>
+    </button>
+
+    <button class="nav-item" data-page="videos">
+      <i data-lucide="play-square"></i>
+      <span>Vídeos</span>
+    </button>
+
+    <button class="nav-item" id="navThemes">
+      <i data-lucide="palette"></i>
+      <span>Temas</span>
+    </button>
+
+  </div>
+</nav>
+
+<!-- MODAL DE TEMAS -->
+
+<div class="modal-backdrop" id="themeModal">
+  <div class="theme-modal">
+
+    <div class="modal-header">
+      <h2>Aparência</h2>
+      <button class="close-modal" id="closeThemes" aria-label="Fechar">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <p class="page-description" style="margin:0 0 17px;">
+      Escolha a identidade visual da sua ERMO Network.
+    </p>
+
+    <div class="theme-list" id="themeList">
+
+      <button class="theme-option selected" data-theme="terra">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#10110f 50%,#b8a477 50%);"></span>
+        <span><strong>Terra</strong><small>Original ERMO</small></span>
+      </button>
+
+      <button class="theme-option" data-theme="oceano">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#0d151c 50%,#64a8c5 50%);"></span>
+        <span><strong>Oceano</strong><small>Azul profundo</small></span>
+      </button>
+
+      <button class="theme-option" data-theme="floresta">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#101812 50%,#82aa78 50%);"></span>
+        <span><strong>Floresta</strong><small>Verde natural</small></span>
+      </button>
+
+      <button class="theme-option" data-theme="roxo">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#17121d 50%,#ad8ad4 50%);"></span>
+        <span><strong>Roxo</strong><small>Violeta</small></span>
+      </button>
+
+      <button class="theme-option" data-theme="noturno">
+        <span class="theme-swatch" style="background:linear-gradient(135deg,#090a0c 50%,#a1a6ae 50%);"></span>
+        <span><strong>Noturno</strong><small>Preto e cinza</small></span>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<!-- BIBLIOTECAS -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/lucide@0.468.0"></script>
+
+<script>
+/* =========================================
+   CONFIGURAÇÃO SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+  "https://dgcwrxrgeobwduynoyod.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_TkpO7ERPQySrZ1fZX2hkNg_qjR9afoZ";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+let communities = [];
+let posts = [];
+
+/* =========================================
+   TEMAS
+========================================= */
+
+const themes = {
+  terra: {
+    bg: "#10110f",
+    surface: "#191a16",
+    surface2: "#20211c",
+    surface3: "#292a24",
+    border: "#34352e",
+    text: "#f2f0e9",
+    muted: "#999a90",
+    accent: "#b8a477",
+    accentText: "#171711",
+    nav: "rgba(16,17,15,.94)"
+  },
+
+  oceano: {
+    bg: "#0d151c",
+    surface: "#14212b",
+    surface2: "#1b2b37",
+    surface3: "#263c4a",
+    border: "#304756",
+    text: "#edf5f7",
+    muted: "#9aafb9",
+    accent: "#64a8c5",
+    accentText: "#0b1820",
+    nav: "rgba(13,21,28,.94)"
+  },
+
+  floresta: {
+    bg: "#101812",
+    surface: "#18231b",
+    surface2: "#202e23",
+    surface3: "#2b3b2d",
+    border: "#3a4b3a",
+    text: "#edf2e9",
+    muted: "#a0ad9c",
+    accent: "#82aa78",
+    accentText: "#101910",
+    nav: "rgba(16,24,18,.94)"
+  },
+
+  roxo: {
+    bg: "#17121d",
+    surface: "#211a2b",
+    surface2: "#2b2138",
+    surface3: "#382b48",
+    border: "#483958",
+    text: "#f3eef8",
+    muted: "#b1a4bf",
+    accent: "#ad8ad4",
+    accentText: "#1c1226",
+    nav: "rgba(23,18,29,.94)"
+  },
+
+  noturno: {
+    bg: "#090a0c",
+    surface: "#141619",
+    surface2: "#1d2024",
+    surface3: "#292d32",
+    border: "#353a40",
+    text: "#f0f1f2",
+    muted: "#9da2a8",
+    accent: "#a1a6ae",
+    accentText: "#101215",
+    nav: "rgba(9,10,12,.95)"
+  }
+};
+
+function applyTheme(themeId, save = true) {
+  const theme = themes[themeId] || themes.terra;
+  const root = document.documentElement;
+
+  root.style.setProperty("--bg", theme.bg);
+  root.style.setProperty("--surface", theme.surface);
+  root.style.setProperty("--surface-2", theme.surface2);
+  root.style.setProperty("--surface-3", theme.surface3);
+  root.style.setProperty("--border", theme.border);
+  root.style.setProperty("--text", theme.text);
+  root.style.setProperty("--muted", theme.muted);
+  root.style.setProperty("--accent", theme.accent);
+  root.style.setProperty("--accent-text", theme.accentText);
+  root.style.setProperty("--nav-bg", theme.nav);
+
+  document.querySelectorAll(".theme-option").forEach(option => {
+    option.classList.toggle(
+      "selected",
+      option.dataset.theme === themeId
+    );
+  });
+
+  document.querySelector('meta[name="theme-color"]')
+    .setAttribute("content", theme.bg);
+
+  if (save) {
+    try {
+      localStorage.setItem("ermo-network-theme", themeId);
+    } catch (error) {
+      console.warn("Não foi possível salvar o tema.", error);
+    }
+  }
+}
+
+try {
+  applyTheme(
+    localStorage.getItem("ermo-network-theme") || "terra",
+    false
+  );
+} catch {
+  applyTheme("terra", false);
+}
+
+document.querySelectorAll(".theme-option").forEach(option => {
+  option.addEventListener("click", () => {
+    applyTheme(option.dataset.theme);
+  });
+});
+
+/* =========================================
+   NAVEGAÇÃO
+========================================= */
+
+function showPage(pageName) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
+
+  const target = document.getElementById("page-" + pageName);
+
+  if (!target) return;
+
+  target.classList.add("active");
+
+  document.querySelectorAll(".nav-item[data-page]").forEach(item => {
+    item.classList.toggle(
+      "active",
+      item.dataset.page === pageName
+    );
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  if (pageName === "communities") {
+    renderCommunities();
+  }
+
+  if (pageName === "videos") {
+    renderVideos();
+  }
+  if (pageName !== "videos") {
+  pauseAllVideos();
+}
+
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+}
+
+document.querySelectorAll(".nav-item[data-page]").forEach(item => {
+  item.addEventListener("click", () => {
+    showPage(item.dataset.page);
+  });
+});
+
+/* =========================================
+   MODAL DE TEMAS
+========================================= */
+
+const themeModal = document.getElementById("themeModal");
+
+function openThemes() {
+  themeModal.classList.add("open");
+}
+
+function closeThemes() {
+  themeModal.classList.remove("open");
+}
+
+document.getElementById("openThemes")
+  .addEventListener("click", openThemes);
+
+document.getElementById("navThemes")
+  .addEventListener("click", openThemes);
+
+document.getElementById("closeThemes")
+  .addEventListener("click", closeThemes);
+
+themeModal.addEventListener("click", event => {
+  if (event.target === themeModal) {
+    closeThemes();
+  }
+});
+
+/* =========================================
+   UTILITÁRIOS
+========================================= */
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    character => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    })[character]
+  );
+}
+
+function getInitial(value) {
+  return String(value || "E")
+    .trim()
+    .charAt(0)
+    .toUpperCase();
+}
+
+function safeHttpUrl(value) {
+  try {
+    const url = new URL(value);
+
+    if (
+      url.protocol !== "https:" &&
+      url.protocol !== "http:"
+    ) {
+      return null;
+    }
+
+    return url.href;
+  } catch {
+    return null;
+  }
+}
+
+function communityAvatar(community, className = "mini-avatar") {
+  const name = escapeHTML(community?.name || "ERMO");
+  const logo = safeHttpUrl(community?.logo_url);
+
+  if (logo) {
+    return `
+      <div class="${className}">
+        <img
+          src="${escapeHTML(logo)}"
+          alt="Logo de ${name}"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+    `;
+  }
+
+  return `
+    <div class="${className}">
+      ${escapeHTML(getInitial(community?.name))}
+    </div>
+  `;
+}
+
+function getCommunity(slug) {
+  return communities.find(item => item.slug === slug);
+}
+
+/* =========================================
+   ENDEREÇOS ERMO
+========================================= */
+
+function normalizeAddress(value) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/\.ermo$/, "");
+}
+
+const resolverForm = document.getElementById("resolverForm");
+const addressInput = document.getElementById("address");
+const resolveButton = document.getElementById("resolveButton");
+const resolveMessage = document.getElementById("resolveMessage");
+
+async function resolveAddress(value) {
+  const slug = normalizeAddress(value);
+
+  resolveMessage.textContent = "";
+
+  if (!/^[a-z0-9-]{2,40}$/.test(slug)) {
+    resolveMessage.textContent = "Endereço ERMO inválido.";
+    return;
+  }
+
+  resolveButton.disabled = true;
+  resolveButton.textContent = "Buscando...";
+
+  try {
+    const { data, error } = await db
+      .from("communities")
+      .select("name, slug, website_url, active")
+      .eq("slug", slug)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    if (!data || !data.active) {
+      resolveMessage.textContent =
+        "Comunidade não encontrada na rede ERMO.";
+      return;
+    }
+
+    const destination = safeHttpUrl(data.website_url);
+
+    if (!destination) {
+      resolveMessage.textContent =
+        "Esta comunidade ainda não possui um site válido cadastrado.";
+      return;
+    }
+
+    resolveMessage.textContent =
+      "Comunidade encontrada! Abrindo " + data.name + "...";
+
+    try {
+      const { error: visitError } = await db
+        .from("community_visits")
+        .insert({
+          community_slug: data.slug
+        });
+
+      if (visitError) {
+        console.warn("Visita não registrada:", visitError);
+      }
+    } catch (visitError) {
+      console.warn("Falha no registro de visita:", visitError);
+    }
+
+    window.location.assign(destination);
+
+  } catch (error) {
+    console.error("Erro ao resolver endereço:", error);
+
+    resolveMessage.textContent =
+      "Não foi possível consultar a rede. Tente novamente.";
+
+  } finally {
+    resolveButton.disabled = false;
+    resolveButton.textContent = "Acessar";
+  }
+}
+
+resolverForm.addEventListener("submit", event => {
+  event.preventDefault();
+  resolveAddress(addressInput.value);
+});
+
+/* =========================================
+   COMUNIDADES
+========================================= */
+
+function communityCardHTML(community) {
+  const name = escapeHTML(community.name);
+  const slug = escapeHTML(community.slug);
+  const description = escapeHTML(
+    community.description || "Uma comunidade da rede ERMO."
+  );
+
+  const destination = safeHttpUrl(community.website_url);
+
+  return `
+    <article class="community-card">
+
+      <div class="community-logo">
+        ${
+          safeHttpUrl(community.logo_url)
+            ? `<img
+                src="${escapeHTML(safeHttpUrl(community.logo_url))}"
+                alt="Logo de ${name}"
+                loading="lazy"
+                onerror="this.style.display='none'">`
+            : escapeHTML(getInitial(community.name))
+        }
+      </div>
+
+      <h3>${name}</h3>
+      <p>${description}</p>
+
+      <span class="community-address">${slug}.ermo</span>
+
+      <div class="community-card-footer">
+        ${
+          destination
+            ? `<a
+                class="community-visit"
+                href="${escapeHTML(destination)}"
+                target="_blank"
+                rel="noopener noreferrer">
+                Visitar comunidade
+              </a>`
+            : `<button class="community-visit" disabled>
+                Site não cadastrado
+              </button>`
+        }
+      </div>
+
+    </article>
+  `;
+}
+
+function renderCommunities() {
+  const search = (
+    document.getElementById("communitySearch")?.value || ""
+  ).trim().toLowerCase();
+
+  const filtered = communities.filter(community => {
+    return (
+      (community.name || "").toLowerCase().includes(search) ||
+      (community.slug || "").toLowerCase().includes(search) ||
+      (community.description || "").toLowerCase().includes(search) ||
+      (community.category || "").toLowerCase().includes(search)
+    );
+  });
+
+  const allContainer = document.getElementById("allCommunities");
+
+  if (!filtered.length) {
+    allContainer.innerHTML = `
+      <div class="empty-state">
+        <i data-lucide="search-x"></i>
+        <h3>Nenhuma comunidade encontrada</h3>
+        <p>Tente pesquisar por outro nome ou endereço.</p>
+      </div>
+    `;
+  } else {
+    allContainer.innerHTML = filtered
+      .map(communityCardHTML)
+      .join("");
+  }
+
+  if (window.lucide) lucide.createIcons();
+}
+
+function renderHomeCommunities() {
+  const container = document.getElementById("homeCommunities");
+
+  const featured = communities.slice(0, 3);
+
+  if (!featured.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <i data-lucide="users"></i>
+        <h3>Nenhuma comunidade cadastrada</h3>
+        <p>As comunidades aparecerão aqui quando forem publicadas.</p>
+      </div>
+    `;
+  } else {
+    container.innerHTML = featured
+      .map(communityCardHTML)
+      .join("");
+  }
+
+  if (window.lucide) lucide.createIcons();
+}
+
+document.getElementById("communitySearch")
+  .addEventListener("input", renderCommunities);
+
+/* =========================================
+   VÍDEOS
+========================================= */
+
+/* =========================================
+   VÍDEOS E REPRODUÇÃO AUTOMÁTICA
+========================================= */
+
+let videoObserver = null;
+let youtubePlayers = new Map();
+let videoSoundEnabled = true;
+
+function getYouTubeId(value) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase();
+
+    if (host === "youtu.be" || host === "www.youtu.be") {
+      return url.pathname.split("/").filter(Boolean)[0] || null;
+    }
+
+    if (
+      host === "youtube.com" ||
+      host === "www.youtube.com" ||
+      host === "m.youtube.com"
+    ) {
+      if (url.pathname === "/watch") {
+        return url.searchParams.get("v");
+      }
+
+      const parts = url.pathname.split("/").filter(Boolean);
+
+      if (
+        parts.length >= 2 &&
+        ["embed", "shorts", "live"].includes(parts[0])
+      ) {
+        return parts[1];
+      }
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function getTikTokId(value) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase();
+
+    if (
+      !["tiktok.com", "www.tiktok.com", "m.tiktok.com"]
+        .includes(host)
+    ) {
+      return null;
+    }
+
+    const match = url.pathname.match(/\/video\/(\d+)/);
+
+    return match ? match[1] : null;
+  } catch {
+    return null;
+  }
+}
+
+function getEmbedUrl(post) {
+  if (post.platform === "youtube") {
+    const id = getYouTubeId(post.video_url);
+
+    if (!id || !/^[a-zA-Z0-9_-]{11}$/.test(id)) {
+      return null;
+    }
+
+    return (
+      "https://www.youtube-nocookie.com/embed/" +
+      encodeURIComponent(id) +
+      "?enablejsapi=1" +
+      "&autoplay=1" +
+      "&mute=0" +
+      "&playsinline=1" +
+      "&controls=1" +
+      "&rel=0"
+    );
+  }
+
+  if (post.platform === "tiktok") {
+    const id = getTikTokId(post.video_url);
+
+    if (!id) return null;
+
+    return (
+      "https://www.tiktok.com/player/v1/" +
+      encodeURIComponent(id) +
+      "?autoplay=1"
+    );
+  }
+
+  return null;
+}
+
+function platformName(platform) {
+  return platform === "youtube" ? "YouTube" : "TikTok";
+}
+
+function formatDate(value) {
+  if (!value) return "";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return "";
+
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  }).format(date);
+}
+
+/* =========================================
+   CONTROLE DO YOUTUBE
+========================================= */
+
+function loadYouTubeAPI() {
+  if (window.YT && window.YT.Player) {
+    initializeYouTubePlayers();
+    return;
+  }
+
+  if (document.getElementById("youtube-iframe-api")) {
+    return;
+  }
+
+  const script = document.createElement("script");
+
+  script.id = "youtube-iframe-api";
+  script.src = "https://www.youtube.com/iframe_api";
+
+  document.head.appendChild(script);
+
+  const previousCallback = window.onYouTubeIframeAPIReady;
+
+  window.onYouTubeIframeAPIReady = function() {
+    if (typeof previousCallback === "function") {
+      previousCallback();
+    }
+
+    initializeYouTubePlayers();
+  };
+}
+
+function initializeYouTubePlayers() {
+  if (!window.YT || !window.YT.Player) return;
+
+  document.querySelectorAll(".video-player").forEach(iframe => {
+    if (iframe.dataset.platform !== "youtube") return;
+
+    const id = iframe.id;
+
+    if (youtubePlayers.has(id)) return;
+
+    try {
+      const player = new YT.Player(id, {
+        events: {
+          onReady: function(event) {
+            const card = iframe.closest(".video-card");
+
+            if (!card) return;
+
+            if (card.dataset.visible === "true") {
+              attemptPlay(player);
+            }
+          },
+
+          onStateChange: function(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+              const card = iframe.closest(".video-card");
+
+              if (card) {
+                card.dataset.playing = "true";
+              }
+            }
+          }
+        }
+      });
+
+      youtubePlayers.set(id, player);
+
+    } catch (error) {
+      console.warn("Não foi possível iniciar o player:", error);
+    }
+  });
+}
+
+function attemptPlay(player) {
+  try {
+    player.playVideo();
+
+    if (videoSoundEnabled) {
+      player.unMute();
+      player.setVolume(100);
+    } else {
+      player.mute();
+    }
+  } catch (error) {
+    console.warn("O navegador bloqueou a reprodução automática:", error);
+  }
+}
+
+/* =========================================
+   CONTROLE DOS VÍDEOS
+========================================= */
+
+function pauseAllVideos(exceptCard = null) {
+  document.querySelectorAll(".video-card").forEach(card => {
+    if (card === exceptCard) return;
+
+    const iframe = card.querySelector(".video-player");
+
+    if (!iframe) return;
+
+    if (iframe.dataset.platform === "youtube") {
+      const player = youtubePlayers.get(iframe.id);
+
+      if (player) {
+        try {
+          player.pauseVideo();
+        } catch {}
+      }
+    }
+
+    if (iframe.dataset.platform === "tiktok") {
+      iframe.contentWindow?.postMessage({
+        type: "pause",
+        "x-tiktok-player": true
+      }, "*");
+    }
+
+    card.dataset.visible = "false";
+  });
+}
+
+function playVideoCard(card) {
+  const iframe = card.querySelector(".video-player");
+
+  if (!iframe) return;
+
+  pauseAllVideos(card);
+
+  card.dataset.visible = "true";
+
+  if (iframe.dataset.platform === "youtube") {
+    const player = youtubePlayers.get(iframe.id);
+
+    if (player) {
+      attemptPlay(player);
+    }
+
+    return;
+  }
+
+  if (iframe.dataset.platform === "tiktok") {
+    iframe.contentWindow?.postMessage({
+      type: "play",
+      "x-tiktok-player": true
+    }, "*");
+  }
+}
+
+function setupVideoObserver() {
+  if (videoObserver) {
+    videoObserver.disconnect();
+  }
+
+  const videoCards = document.querySelectorAll(".video-card");
+
+  if (!videoCards.length) return;
+
+  videoObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const card = entry.target;
+
+      if (
+        entry.isIntersecting &&
+        entry.intersectionRatio >= 0.65
+      ) {
+        playVideoCard(card);
+      } else {
+        card.dataset.visible = "false";
+      }
+    });
+
+    const active = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (active && active.intersectionRatio >= 0.65) {
+      playVideoCard(active.target);
+    }
+
+  }, {
+    threshold: [0, 0.25, 0.5, 0.65, 0.85, 1]
+  });
+
+  videoCards.forEach(card => {
+    videoObserver.observe(card);
+  });
+}
+
+/* =========================================
+   BOTÃO DE SOM
+========================================= */
+
+function toggleVideoSound(button) {
+  videoSoundEnabled = !videoSoundEnabled;
+
+  document.querySelectorAll(".video-card").forEach(card => {
+    const iframe = card.querySelector(".video-player");
+
+    if (!iframe) return;
+
+    if (iframe.dataset.platform === "youtube") {
+      const player = youtubePlayers.get(iframe.id);
+
+      if (player) {
+        try {
+          if (videoSoundEnabled) {
+            player.unMute();
+            player.setVolume(100);
+          } else {
+            player.mute();
+          }
+        } catch {}
+      }
+    }
+
+    if (iframe.dataset.platform === "tiktok") {
+      iframe.contentWindow?.postMessage({
+        type: videoSoundEnabled ? "unMute" : "mute",
+        "x-tiktok-player": true
+      }, "*");
+    }
+
+    const soundButton = card.querySelector(".video-sound-button");
+
+    if (soundButton) {
+      soundButton.innerHTML = videoSoundEnabled
+        ? '<i data-lucide="volume-2"></i>'
+        : '<i data-lucide="volume-x"></i>';
+    }
+  });
+
+  if (window.lucide) lucide.createIcons();
+
+  if (videoSoundEnabled) {
+    const activeCard = document.querySelector(
+      '.video-card[data-visible="true"]'
+    );
+
+    if (activeCard) {
+      playVideoCard(activeCard);
+    }
+  }
+}
+
+/* =========================================
+   HTML DOS PLAYERS
+========================================= */
+
+function videoEmbedHTML(post, title) {
+  const embed = getEmbedUrl(post);
+
+  if (!embed) {
+    return `
+      <div class="post-media-placeholder">
+        Vídeo disponível pelo link externo.
+      </div>
+    `;
+  }
+
+  const id = "video_" + String(post.id).replace(/[^a-zA-Z0-9_-]/g, "");
+
+  return `
+    <iframe
+      id="${escapeHTML(id)}"
+      class="video-player"
+      data-platform="${escapeHTML(post.platform)}"
+      src="${escapeHTML(embed)}"
+      title="${escapeHTML(title)}"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+  `;
+}
+
+/* =========================================
+   CARDS DO FEED
+========================================= */
+
+function postCardHTML(post) {
+  const community = getCommunity(post.community_slug);
+
+  if (!community) return "";
+
+  const title = escapeHTML(post.title);
+  const description = escapeHTML(post.description || "");
+  const communityName = escapeHTML(community.name);
+  const date = formatDate(post.created_at);
+  const external = safeHttpUrl(post.video_url);
+
+  return `
+    <article class="post-card">
+
+      <div class="post-media">
+        ${videoEmbedHTML(post, title)}
+      </div>
+
+      <div class="post-body">
+
+        <div class="post-meta">
+          <span class="platform-label">
+            ${platformName(post.platform)}
+          </span>
+          <span class="post-date">${escapeHTML(date)}</span>
+        </div>
+
+        <h3 class="post-title">${title}</h3>
+
+        ${
+          description
+            ? `<p class="post-description">${description}</p>`
+            : ""
+        }
+
+        <div class="post-footer">
+
+          <div class="post-community">
+            ${communityAvatar(community)}
+            <div class="community-label">
+              <strong>${communityName}</strong>
+              <span>Comunidade ERMO</span>
+            </div>
+          </div>
+
+          ${
+            external
+              ? `<a
+                  class="post-open"
+                  href="${escapeHTML(external)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Abrir
+                </a>`
+              : ""
+          }
+
+        </div>
+
+      </div>
+    </article>
+  `;
+}
+
+/* =========================================
+   CARDS DA ABA VÍDEOS
+========================================= */
+
+function videoCardHTML(post) {
+  const community = getCommunity(post.community_slug);
+
+  if (!community) return "";
+
+  const title = escapeHTML(post.title);
+  const description = escapeHTML(post.description || "");
+  const external = safeHttpUrl(post.video_url);
+
+  return `
+    <article class="video-card">
+
+      ${videoEmbedHTML(post, title)}
+
+      ${
+  post.platform === "tiktok"
+    ? `
+      <button
+        class="video-sound-button"
+        type="button"
+        aria-label="Controle de som"
+        onclick="toggleTikTokSound(this)">
+
+        <i data-lucide="volume-2"></i>
+
+      </button>
+    `
+    : ""
+}
+
+      <div class="video-sound-notice">
+        Se o som não iniciar, toque no vídeo para liberar o áudio.
+      </div>
+
+      <div class="video-overlay">
+
+        <div class="video-community">
+          ${communityAvatar(community)}
+          <div>
+            <strong>${escapeHTML(community.name)}</strong>
+            <span>${platformName(post.platform)} · ERMO Network</span>
+          </div>
+        </div>
+
+        <h3>${title}</h3>
+
+        ${
+          description
+            ? `<p>${description}</p>`
+            : ""
+        }
+
+        <div class="video-actions">
+
+          ${
+            external
+              ? `<a
+                  class="video-action"
+                  href="${escapeHTML(external)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Abrir publicação
+                </a>`
+              : ""
+          }
+
+          <button
+            class="video-action"
+            onclick="showPage('communities')">
+            Comunidades
+          </button>
+
+        </div>
+
+      </div>
+    </article>
+  `;
+}
+
+/* =========================================
+   RENDERIZAÇÃO
+========================================= */
+
+function renderHomeFeed() {
+  const container = document.getElementById("homeFeed");
+
+  if (!posts.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <i data-lucide="clapperboard"></i>
+        <h3>O feed está começando</h3>
+        <p>Quando as comunidades publicarem vídeos, eles aparecerão aqui.</p>
+      </div>
+    `;
+  } else {
+    container.innerHTML = posts
+      .map(postCardHTML)
+      .filter(Boolean)
+      .join("");
+  }
+
+  if (window.lucide) lucide.createIcons();
+}
+
+function renderVideos() {
+  const container = document.getElementById("videoFeed");
+
+  if (videoObserver) {
+    videoObserver.disconnect();
+    videoObserver = null;
+  }
+
+  pauseAllVideos();
+
+  youtubePlayers.clear();
+
+  if (!posts.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <i data-lucide="play-circle"></i>
+        <h3>Nenhum vídeo publicado</h3>
+        <p>Os vídeos lançados pelas comunidades aparecerão aqui.</p>
+      </div>
+    `;
+  } else {
+    container.innerHTML = posts
+      .map(videoCardHTML)
+      .filter(Boolean)
+      .join("");
+  }
+
+  if (window.lucide) lucide.createIcons();
+
+  loadYouTubeAPI();
+
+  setupVideoObserver();
+}
+  
+
+/* =========================================
+   CARREGAMENTO DO SUPABASE
+========================================= */
+
+async function loadNetwork() {
+  const homeCommunities = document.getElementById("homeCommunities");
+  const homeFeed = document.getElementById("homeFeed");
+  const allCommunities = document.getElementById("allCommunities");
+  const videoFeed = document.getElementById("videoFeed");
+
+  try {
+    const [communityResponse, postResponse] = await Promise.all([
+      db
+        .from("communities")
+        .select(
+          "name, slug, description, website_url, logo_url, category, active"
+        )
+        .eq("active", true)
+        .order("created_at", { ascending: false }),
+
+      db
+        .from("posts")
+        .select(
+          "id, community_slug, title, description, platform, video_url, active, created_at"
+        )
+        .eq("active", true)
+        .order("created_at", { ascending: false })
+    ]);
+
+    if (communityResponse.error) {
+      throw communityResponse.error;
+    }
+
+    if (postResponse.error) {
+      throw postResponse.error;
+    }
+
+    communities = communityResponse.data || [];
+
+    const activeSlugs = new Set(
+      communities.map(community => community.slug)
+    );
+
+    posts = (postResponse.data || []).filter(post =>
+      activeSlugs.has(post.community_slug) &&
+      safeHttpUrl(post.video_url)
+    );
+
+    renderHomeCommunities();
+    renderCommunities();
+    renderHomeFeed();
+    renderVideos();
+
+  } catch (error) {
+    console.error("Erro ao carregar a ERMO Network:", error);
+
+    const errorHTML = `
+      <div class="empty-state">
+        <i data-lucide="cloud-off"></i>
+        <h3>Não foi possível carregar</h3>
+        <p>Verifique sua conexão e atualize a página.</p>
+      </div>
+    `;
+
+    homeCommunities.innerHTML = errorHTML;
+    homeFeed.innerHTML = errorHTML;
+    allCommunities.innerHTML = errorHTML;
+    videoFeed.innerHTML = errorHTML;
+
+    if (window.lucide) lucide.createIcons();
+  }
+}
+
+/* =========================================
+   ACESSO POR URL
+========================================= */
+
+const params = new URLSearchParams(window.location.search);
+const requestedAddress = params.get("address");
+
+if (requestedAddress) {
+  addressInput.value = requestedAddress;
+}
+
+/* =========================================
+   INICIALIZAÇÃO
+========================================= */
+
+if (window.lucide) {
+  lucide.createIcons();
+}
+
+loadNetwork();
+  
+</script>
+
+</body>
+</html>
